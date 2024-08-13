@@ -14,28 +14,4 @@ class ApiResponse<T> {
       status: status,
     );
   }
-
-  // bool hasData() => data != null;
-
-  // bool hasError() => error != null;
-
-  // bool isSuccess() => success;
-
-  // bool isError() => !success;
-
-  // T getData() {
-  //   if (success && data != null) {
-  //     return data!;
-  //   } else {
-  //     throw Exception(error ?? 'Unknown error occurred');
-  //   }
-  // }
-
-  // String getError() {
-  //   if (!success && error != null) {
-  //     return error!;
-  //   } else {
-  //     return 'No error message available';
-  //   }
-  // }
 }
