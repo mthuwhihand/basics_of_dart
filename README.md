@@ -1,4 +1,4 @@
-# basics_of_dart
+# Dependency Injection
 
-A new Flutter project with Basics of Dart.
+Using Dependency Injection in MovieBloc
 
