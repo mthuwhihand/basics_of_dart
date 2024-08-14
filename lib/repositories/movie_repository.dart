@@ -4,7 +4,7 @@ import 'package:basics_of_dart/network/response.dart';
 import 'package:dio/dio.dart';
 import '../models/movie.dart';
 
-class MovieRepository extends IMovieRepository {
+class MovieRepository implements IMovieRepository {
   final Dio dio = Dio();
 
   @override

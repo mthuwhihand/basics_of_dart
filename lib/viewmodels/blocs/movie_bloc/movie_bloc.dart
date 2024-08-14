@@ -16,6 +16,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   // Getter
   bool get hasMoreMovies => _hasMoreMovies;
   Stream<Map<String, String>> get searchQuery => _searchQuery.stream;
+
   // Initialize HomeBloc with MovieRepository and set up event handlers
   MovieBloc({required this.movieRepository}) : super(MovieInitial()) {
     on<FetchMovies>(_onFetchMovies);
