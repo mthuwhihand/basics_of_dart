@@ -6,11 +6,10 @@ import '../models/movie.dart';
 
 class MovieRepository implements IMovieRepository {
   // Private constructor
-  MovieRepository._privateConstructor();
+  MovieRepository._();
 
   // Singleton instance
-  static final MovieRepository _instance =
-      MovieRepository._privateConstructor();
+  static final MovieRepository _instance = MovieRepository._();
 
   static get instance => _instance;
 
