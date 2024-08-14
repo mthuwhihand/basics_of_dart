@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:basics_of_dart/interfaces/imovie.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../repositories/movie_repository.dart';
@@ -6,7 +7,7 @@ import 'movie_event.dart';
 import 'movie_state.dart';
 
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
-  final MovieRepository movieRepository;
+  final IMovieRepository movieRepository;
   int _currentPage = 1; // Tracks the current page number for pagination
   final int _pageSize = 10; // Number of movies per page
   bool _hasMoreMovies = true; // Flag to check if there are more movies to load

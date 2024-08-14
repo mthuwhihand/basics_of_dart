@@ -8,4 +8,10 @@ abstract class IMovieRepository {
     // TODO: implement fetchMovies
     throw UnimplementedError();
   }
+
+  Future<ApiResponse<List<Movie>>> searchMovies(
+      {required String type, required String query}) {
+    // TODO: implement searchMovies
+    throw UnimplementedError();
+  }
 }
