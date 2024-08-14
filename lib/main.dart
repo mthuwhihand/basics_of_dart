@@ -1,4 +1,5 @@
 import 'package:basics_of_dart/utils/colors.dart';
+import 'package:basics_of_dart/views/screens/bloc_screen.dart';
 import 'package:basics_of_dart/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
