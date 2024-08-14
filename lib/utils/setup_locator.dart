@@ -5,5 +5,4 @@ final GetIt getIt = GetIt.instance;
 
 void setupLocator() {
   getIt.registerLazySingleton<MovieRepository>(() => MovieRepository());
-  // Register other dependencies similarly
 }
