@@ -8,10 +8,13 @@ class TabBarApp extends StatelessWidget implements PreferredSizeWidget {
     return const TabBar(
       tabs: <Widget>[
         Tab(
-          text: 'Bloc',
+          text: 'Movies',
         ),
         Tab(
-          text: 'Provider',
+          text: 'Likes',
+        ),
+        Tab(
+          text: 'Ratings',
         ),
       ],
     );

@@ -5,15 +5,6 @@ import 'package:dio/dio.dart';
 import '../models/movie.dart';
 
 class MovieRepository implements IMovieRepository {
-  // Private constructor
-  MovieRepository._privateConstructor();
-
-  // Singleton instance
-  static final MovieRepository _instance =
-      MovieRepository._privateConstructor();
-
-  static get instance => _instance;
-
   final Dio dio = Dio();
 
   @override
