@@ -1,5 +1,4 @@
 import 'package:basics_of_dart/repositories/movie_repository.dart';
-import 'package:basics_of_dart/utils/setup_locator.dart';
 import 'package:basics_of_dart/views/widgets/movie_searchbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
