@@ -16,7 +16,8 @@ dependencies:
   dio: ^5.5.0+1 
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
-
+  rxdart: ^0.28.0
+  
 
 dev_dependencies:
   flutter_test:
