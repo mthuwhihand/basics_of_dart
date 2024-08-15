@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:basics_of_dart/interfaces/ilike.dart';
 import 'package:basics_of_dart/interfaces/imovie.dart';
+import 'package:basics_of_dart/models/like.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../repositories/movie_repository.dart';
@@ -8,6 +10,7 @@ import 'movie_state.dart';
 
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
   final IMovieRepository movieRepository;
+  final ILikeRepository likeRepository;
   int _currentPage = 1; // Tracks the current page number for pagination
   final int _pageSize = 10; // Number of movies per page
   bool _hasMoreMovies = true; // Flag to check if there are more movies to load
@@ -18,11 +21,13 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   bool get hasMoreMovies => _hasMoreMovies;
   Stream<Map<String, String>> get searchQuery => _searchQuery.stream;
   // Initialize HomeBloc with MovieRepository and set up event handlers
-  MovieBloc({required this.movieRepository}) : super(MovieInitial()) {
+  MovieBloc({required this.movieRepository, required this.likeRepository})
+      : super(MovieInitial()) {
     on<FetchMovies>(_onFetchMovies);
     on<RefreshMovies>(_onRefreshMovies);
     on<LoadMoreMovies>(_onLoadMoreMovies);
     on<SearchMovies>(_onSearchMovies);
+    on<LikeMovie>(_onLikeMovie);
 
     // Listen to search query changes and fetch movies based on the search term
     _searchQuery.debounceTime(const Duration(seconds: 1)).listen((params) {
@@ -150,6 +155,22 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         emit(MovieError(
             e.toString())); // Emit error state if an exception occurs
       }
+    }
+  }
+
+  // Handle like movie event
+  Future<void> _onLikeMovie(LikeMovie event, Emitter<MovieState> emit) async {
+    try {
+      // Fetch all movies
+      final response = await likeRepository.addLike(
+          user_id: event.user_id, movie_id: event.movie_id);
+      if (response.status == HttpStatus.ok) {
+        emit(MovieLiked());
+      } else {
+        emit(LikeMovieError(response.message!));
+      }
+    } catch (e) {
+      emit(LikeMovieError(e.toString()));
     }
   }
 }

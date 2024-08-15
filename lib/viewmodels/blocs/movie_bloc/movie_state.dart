@@ -13,6 +13,17 @@ class MovieInitial extends MovieState {}
 
 class MovieLoading extends MovieState {}
 
+class MovieLiked extends MovieState {}
+
+class LikeMovieError extends MovieState {
+  final String message;
+
+  const LikeMovieError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
 class MovieLoaded extends MovieState {
   final List<Movie> movies;
 

@@ -1,16 +1,17 @@
+import 'package:basics_of_dart/repositories/like_repository.dart';
 import 'package:basics_of_dart/repositories/movie_repository.dart';
 import 'package:basics_of_dart/views/widgets/movie_searchbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import '../../viewmodels/blocs/movie_bloc/movie_bloc.dart';
-import '../../viewmodels/blocs/movie_bloc/movie_event.dart';
-import '../../viewmodels/blocs/movie_bloc/movie_state.dart';
-import '../widgets/network_image_with_fallback.dart';
+import '../../../viewmodels/blocs/movie_bloc/movie_bloc.dart';
+import '../../../viewmodels/blocs/movie_bloc/movie_event.dart';
+import '../../../viewmodels/blocs/movie_bloc/movie_state.dart';
+import '../../widgets/network_image_with_fallback.dart';
 
-class MoviesScreen extends StatelessWidget {
-  const MoviesScreen({super.key});
+class RatingScreen extends StatelessWidget {
+  const RatingScreen({super.key});
   final String type = 'animation';
   final String placeholderImage = 'assets/imgs/placeholder.jpg';
 
@@ -18,8 +19,8 @@ class MoviesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MovieBloc(
-          movieRepository: /*GetIt.instance<MovieRepository>()*/
-              MovieRepository.instance)
+          movieRepository: MovieRepository.instance,
+          likeRepository: LikeRepository.instance)
         ..add(FetchMovies(type)),
       child: Scaffold(
         appBar: AppBar(

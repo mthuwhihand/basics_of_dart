@@ -1,0 +1,20 @@
+[
+  {
+    "userId": "1",
+    "username": "Minh Thuw",
+    "email": "nmthu123@gmail.com",
+    "password": "Abc1234"
+  },
+  {
+    "userId": "2",
+    "username": "Minh Hi",
+    "email": "hihand456@gmail.com",
+    "password": "Abc1234"
+  },
+  {
+    "userId": "3",
+    "username": "Minh Anh",
+    "email": "ngminhthu123@gmail.com",
+    "password": "Abc1234"
+  }
+]

@@ -19,6 +19,8 @@ dependencies:
   rxdart: ^0.28.0
   get_it: ^7.7.0
   shared_preferences: ^2.0.13
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +35,12 @@ flutter:
   assets:
     - assets/
     - assets/imgs/
+    - assets/mocks/
+    - assets/fonts/
+    - assets/fonts/fa/
+  fonts:
+    - family: Fa
+      fonts:
+        - asset: assets/fonts/fa/fa-regular-400.ttf
+        - asset: assets/fonts/fa/fa-solid-900.ttf
+          weight: 900

@@ -2,6 +2,7 @@ import 'package:basics_of_dart/utils/colors.dart';
 import 'package:basics_of_dart/viewmodels/blocs/auth_bloc/auth_bloc.dart';
 import 'package:basics_of_dart/viewmodels/blocs/auth_bloc/auth_event.dart';
 import 'package:basics_of_dart/viewmodels/blocs/auth_bloc/auth_state.dart';
+import 'package:basics_of_dart/views/screens/login/components/input_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,50 +45,40 @@ class LoginScreen extends StatelessWidget {
                     width: 100,
                   ),
                   const SizedBox(height: 48.0),
-                  TextField(
+                  InputTextField(
                     controller: emailController,
+                    state: state,
+                    labelText: 'Email',
+                    hint: 'Email',
+                    fontSize: 18,
                     onChanged: (value) {
                       context
                           .read<AuthBloc>()
                           .add(AuthLoginEmailChangedEvent(value));
                     },
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      errorText: state is AuthLoginFailureInvalidEmail
-                          ? state.error.toString()
-                          : null,
-                    ),
+                    obscure: false,
+                    type: TextInputType.emailAddress,
+                    error: state is AuthLoginFailureInvalidEmail
+                        ? state.error.toString()
+                        : null,
                   ),
                   const SizedBox(height: 16.0),
-                  // InputTextField(
-                  //   controller: passwordController,
-                  //   state: state,
-                  //   labelText: 'Password',
-                  //   hint: 'Password',
-                  //   onChanged: (value) {
-                  //     context
-                  //         .read<AuthBloc>()
-                  //         .add(AuthLoginPasswordChangedEvent(value));
-                  //   },
-                  //   obscure: true,
-                  //   type: TextInputType.emailAddress,
-                  //   errorState:
-                  //       state is AuthLoginFailureInvalidPassword ? state : null,
-                  // ),
-                  TextField(
+                  InputTextField(
                     controller: passwordController,
+                    state: state,
+                    labelText: 'Password',
+                    hint: 'Password',
+                    fontSize: 18,
                     onChanged: (value) {
                       context
                           .read<AuthBloc>()
                           .add(AuthLoginPasswordChangedEvent(value));
                     },
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      errorText: state is AuthLoginFailureInvalidPassword
-                          ? state.error.toString()
-                          : null,
-                    ),
-                    obscureText: true,
+                    obscure: true,
+                    type: TextInputType.visiblePassword,
+                    error: state is AuthLoginFailureInvalidPassword
+                        ? state.error.toString()
+                        : null,
                   ),
                   const SizedBox(height: 32.0),
                   ElevatedButton(
