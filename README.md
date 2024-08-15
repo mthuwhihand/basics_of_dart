@@ -1,3 +1,3 @@
-# Dependency Injection
+# Assets
 
-Using Dependency Injection at MovieBloc
+Using Assets: fonts, imgs, mock json file to login 

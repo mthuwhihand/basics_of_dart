@@ -59,6 +59,7 @@ class MoviesScreen extends StatelessWidget {
                         );
                       }
                     }
+
                     final movie = state.movies[index];
                     return Card(
                       margin: const EdgeInsets.symmetric(
