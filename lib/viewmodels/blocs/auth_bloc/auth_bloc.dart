@@ -1,17 +1,20 @@
-import 'package:basics_of_dart/repositories/auth_repository.dart';
+import 'package:basics_of_dart/common/response.dart';
+import 'package:basics_of_dart/models/services/auth_service.dart';
 import 'package:basics_of_dart/utils/validators.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'auth_event.dart';
-import 'auth_state.dart';
+
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository authRepository;
+  final AuthService authService;
   bool hasInvalidEmailError =
       false; // Flag to indicate if there is an invalid email error
   bool hasInvalidPasswordError =
       false; // Flag to indicate if there is an invalid password error
 
-  AuthBloc({required this.authRepository}) : super(AuthLoginInitial()) {
+  AuthBloc({required this.authService}) : super(AuthLoginInitial()) {
     on<AuthLoginEmailChangedEvent>(_onAuthLoginEmailChanged);
     on<AuthLoginPasswordChangedEvent>(_onAuthLoginPasswordChanged);
     on<AuthLoginSubmittedEvent>(_onAuthLoginSubmittedEvent);
@@ -65,17 +68,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // Delay for 1 seconds before proceeding
     await Future.delayed(const Duration(seconds: 1));
     try {
-      final success = await authRepository.login(
-          email: event.email, password: event.password);
-      if (success) {
-        emit(AuthLoginSuccess()); // Emit success state if login is successful
-      } else {
-        emit(const AuthLoginFailure(
-            'Invalid email or password')); // Emit failure state for invalid credentials
+      final result =
+          await authService.login(email: event.email, password: event.password);
+
+      if (result is Success<bool> && result.data == true) {
+        emit(AuthLoginSuccess());
+      } else if (result is Failure<bool>) {
+        emit(AuthLoginFailure(result.message));
       }
     } catch (error) {
-      emit(AuthLoginFailure(
-          error.toString())); // Emit failure state if an exception occurs
+      emit(AuthLoginFailure('Error during login: ${error.toString()}'));
     }
   }
 
@@ -88,12 +90,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await Future.delayed(const Duration(seconds: 1));
 
     try {
-      await authRepository.logout();
-      emit(AuthLogoutSuccess()); // Emit success state if logout is successful
+      final result = await authService.logout();
+
+      if (result is Success) {
+        emit(AuthLogoutSuccess());
+      } else if (result is Failure) {
+        emit(AuthLoginFailure(result.message));
+      }
     } catch (error) {
-      emit(AuthLoginFailure(
-          error.toString())); // Emit an error state if an exception occurs,
-      // here we use the same error state with AuthLoginState: Failure
+      emit(AuthLoginFailure('Error during logout: ${error.toString()}'));
     }
   }
 }

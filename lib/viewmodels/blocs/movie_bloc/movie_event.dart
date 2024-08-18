@@ -1,43 +1,47 @@
-import 'package:equatable/equatable.dart';
+part of 'movie_bloc.dart';
 
 abstract class MovieEvent extends Equatable {
-  const MovieEvent(this.type);
-
-  final String type;
+  const MovieEvent();
 
   @override
-  List<Object> get props => [type];
+  List<Object> get props => [];
 }
 
-class FetchMovies extends MovieEvent {
-  const FetchMovies(super.type);
+class FetchMoviesEvent extends MovieEvent {}
+
+// class SearchMovies extends MovieEvent {
+//   final String query;
+
+//   const SearchMovies(super.type, super.user_id, this.query);
+
+//   @override
+//   List<Object> get props => [type, query];
+// }
+
+class LikeMovieEvent extends MovieEvent {
+  final int movieId;
+  const LikeMovieEvent(this.movieId);
 }
 
-class SearchMovies extends MovieEvent {
-  final String query;
-
-  const SearchMovies(super.type, this.query);
-
-  @override
-  List<Object> get props => [type, query];
+class UnlikeMovieEvent extends MovieEvent {
+  final int movieId;
+  const UnlikeMovieEvent(this.movieId);
 }
 
-class LikeMovie extends MovieEvent {
-  // ignore: non_constant_identifier_names
-  final int user_id;
-  // ignore: non_constant_identifier_names
-  final int movie_id;
-
-  const LikeMovie(super.type, this.user_id, this.movie_id);
-
-  @override
-  List<Object> get props => [type, user_id, movie_id];
+class AddToWatchlistEvent extends MovieEvent {
+  final int movieId;
+  const AddToWatchlistEvent(this.movieId);
 }
 
-class RefreshMovies extends MovieEvent {
-  const RefreshMovies(super.type);
+class RemoveFromWatchlistEvent extends MovieEvent {
+  final int movieId;
+  const RemoveFromWatchlistEvent(this.movieId);
 }
 
-class LoadMoreMovies extends MovieEvent {
-  const LoadMoreMovies(super.type);
+class RefreshMovieEvent extends MovieEvent {
+  const RefreshMovieEvent();
+}
+
+class LoadMoreMovieEvent extends MovieEvent {
+  const LoadMoreMovieEvent();
 }

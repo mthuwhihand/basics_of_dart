@@ -1,4 +1,4 @@
-import 'package:basics_of_dart/viewmodels/blocs/auth_bloc/auth_state.dart';
+import 'package:basics_of_dart/viewmodels/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 
 class InputTextField extends StatefulWidget {

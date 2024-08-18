@@ -1,8 +1,7 @@
 import 'package:basics_of_dart/viewmodels/blocs/auth_bloc/auth_bloc.dart';
-import 'package:basics_of_dart/viewmodels/blocs/auth_bloc/auth_event.dart';
 import 'package:basics_of_dart/views/screens/likes/likes_screen.dart';
 import 'package:basics_of_dart/views/screens/movie/movie_screen.dart';
-import 'package:basics_of_dart/views/screens/rating/rating_screen.dart';
+import 'package:basics_of_dart/views/screens/watchlist/watchlist_screen.dart';
 import 'package:basics_of_dart/views/widgets/keep_alive_page_widget.dart';
 import 'package:basics_of_dart/views/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +39,8 @@ class HomeScreen extends StatelessWidget {
           body: const TabBarView(
             children: <Widget>[
               KeepAlivePageWidget(page: MoviesScreen()),
-              KeepAlivePageWidget(page: MoviesScreen()),
-              KeepAlivePageWidget(page: MoviesScreen()),
+              LikedScreen(),
+              KeepAlivePageWidget(page: WatchlistScreen()),
             ],
           ),
         ),

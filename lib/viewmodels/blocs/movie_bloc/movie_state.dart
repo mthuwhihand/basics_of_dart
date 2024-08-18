@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-import '../../../models/movie.dart';
+part of 'movie_bloc.dart';
 
 abstract class MovieState extends Equatable {
   const MovieState();
@@ -13,7 +11,14 @@ class MovieInitial extends MovieState {}
 
 class MovieLoading extends MovieState {}
 
-class MovieLiked extends MovieState {}
+class MovieLiked extends MovieState {
+  final int movieId;
+
+  const MovieLiked(this.movieId);
+
+  @override
+  List<Object> get props => [movieId];
+}
 
 class LikeMovieError extends MovieState {
   final String message;
@@ -24,20 +29,12 @@ class LikeMovieError extends MovieState {
   List<Object> get props => [message];
 }
 
-class MovieLoaded extends MovieState {
+class MoviesLoaded extends MovieState {
   final List<Movie> movies;
-
-  const MovieLoaded(this.movies);
-
-  @override
-  List<Object> get props => [movies];
+  const MoviesLoaded(this.movies);
 }
 
-class MovieError extends MovieState {
+class MoviesError extends MovieState {
   final String message;
-
-  const MovieError(this.message);
-
-  @override
-  List<Object> get props => [message];
+  const MoviesError(this.message);
 }

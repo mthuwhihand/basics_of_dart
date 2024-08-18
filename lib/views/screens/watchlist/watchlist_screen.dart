@@ -2,49 +2,49 @@ import 'package:basics_of_dart/views/widgets/movie_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../viewmodels/blocs/like_bloc/like_bloc.dart';
+import '../../../viewmodels/blocs/watchlist_bloc/watchlist_bloc.dart';
 
-class LikedScreen extends StatefulWidget {
-  const LikedScreen({super.key});
+class WatchlistScreen extends StatefulWidget {
+  const WatchlistScreen({super.key});
 
   @override
-  _LikedScreenState createState() => _LikedScreenState();
+  _WatchlistScreenState createState() => _WatchlistScreenState();
 }
 
-class _LikedScreenState extends State<LikedScreen> {
+class _WatchlistScreenState extends State<WatchlistScreen> {
   // final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    // Fetch initial liked movies
-    context.read<LikeBloc>().add(FetchLikedMoviesEvent());
+    // Fetch initial watchlist movies
+    context.read<WatchlistBloc>().add(FetchWatchlistMoviesEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LikeBloc, LikeState>(
+    return BlocBuilder<WatchlistBloc, WatchlistState>(
       builder: (context, state) {
-        if (state is LikeLoading) {
+        if (state is WatchlistLoading) {
           return const Center(child: CupertinoActivityIndicator());
-        } else if (state is LikedMoviesLoaded) {
+        } else if (state is WatchlistMoviesLoaded) {
           return RefreshIndicator(
             onRefresh: () async {
-              context.read<LikeBloc>().add(FetchLikedMoviesEvent());
+              context.read<WatchlistBloc>().add(FetchWatchlistMoviesEvent());
             },
             child: ListView.builder(
               // controller: _scrollController,
-              itemCount: state.likedMovies.length,
+              itemCount: state.watchlistMovies.length,
               itemBuilder: (context, index) {
-                final movie = state.likedMovies[index];
+                final movie = state.watchlistMovies[index];
                 return MovieItem(movie: movie);
               },
             ),
           );
-        } else if (state is LikeError) {
+        } else if (state is WatchlistError) {
           return Center(child: Text(state.message));
         }
-        return const Center(child: Text('No liked movies available'));
+        return const Center(child: Text('No movies in watchlist'));
       },
     );
   }
