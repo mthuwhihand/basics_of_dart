@@ -1,11 +1,13 @@
 import 'package:basics_of_dart/models/entities/entities_library.dart';
 import 'package:basics_of_dart/models/services/services_library.dart';
 import 'package:basics_of_dart/viewmodels/blocs/blocs_library.dart';
+import 'package:basics_of_dart/views/widgets/network_image_with_fallback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieItem extends StatelessWidget {
   final Movie movie;
+  final String placeholderImage = 'assets/imgs/placeholder.jpg';
 
   const MovieItem({Key? key, required this.movie}) : super(key: key);
 
@@ -22,7 +24,13 @@ class MovieItem extends StatelessWidget {
           return Card(
             child: Column(
               children: [
-                Image.network(movie.posterURL, height: 200, fit: BoxFit.cover),
+                NetworkImageWithFallback(
+                  imageUrl: movie.posterURL,
+                  placeholderAsset: placeholderImage,
+                  height: 222,
+                  width: 150,
+                  fit: BoxFit.cover,
+                ),
                 Text(movie.title,
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),

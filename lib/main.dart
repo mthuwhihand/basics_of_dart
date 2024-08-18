@@ -1,3 +1,4 @@
+import 'package:basics_of_dart/common/response.dart';
 import 'package:basics_of_dart/data/datas_library.dart';
 import 'package:basics_of_dart/data/local/local_database_interfaces/likes_datasource_interface.dart';
 import 'package:basics_of_dart/data/local/local_database_interfaces/watchlist_datasource_interface.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:basics_of_dart/utils/colors.dart';
-import 'package:isar/isar.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,46 +39,66 @@ Future<void> main() async {
   final WatchlistService watchlistService =
       WatchlistService.getInstance(watchlistRepository, movieService);
   runApp(
-    MyApp(
-      authService: authService,
-      movieService: movieService,
-      likeService: likeService,
-      watchlistService: watchlistService,
+    MultiProvider(
+      providers: [
+        Provider<ILikesLocalDataSource>(
+          create: (_) => likesLocalDataSource,
+        ),
+        Provider<IWatchlistLocalDataSource>(
+          create: (_) => watchlistLocalDataSource,
+        ),
+        Provider<IAuthRepository>(
+          create: (_) => authRepository,
+        ),
+        Provider<IMovieRepository>(
+          create: (_) => movieRepository,
+        ),
+        Provider<ILikeRepository>(
+          create: (_) => likeRepository,
+        ),
+        Provider<IWatchlistRepository>(
+          create: (_) => watchlistRepository,
+        ),
+        Provider<AuthService>(
+          create: (_) => authService,
+        ),
+        Provider<MovieService>(
+          create: (_) => movieService,
+        ),
+        Provider<LikeService>(
+          create: (_) => likeService,
+        ),
+        Provider<WatchlistService>(
+          create: (_) => watchlistService,
+        ),
+      ],
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final AuthService authService;
-  final MovieService movieService;
-  final LikeService likeService;
-  final WatchlistService watchlistService;
-
-  const MyApp({
-    super.key,
-    required this.authService,
-    required this.movieService,
-    required this.likeService,
-    required this.watchlistService,
-  });
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(authService: authService),
+          create: (context) =>
+              AuthBloc(authService: context.read<AuthService>()),
         ),
         BlocProvider<MovieBloc>(
-          create: (context) => MovieBloc(movieService)..add(FetchMoviesEvent()),
+          create: (context) =>
+              MovieBloc(context.read<MovieService>())..add(FetchMoviesEvent()),
         ),
         BlocProvider<LikeBloc>(
-          create: (context) =>
-              LikeBloc(likeService)..add(FetchLikedMoviesEvent()),
+          create: (context) => LikeBloc(context.read<LikeService>())
+            ..add(FetchLikedMoviesEvent()),
         ),
         BlocProvider<WatchlistBloc>(
-          create: (context) =>
-              WatchlistBloc(watchlistService)..add(FetchWatchlistMoviesEvent()),
+          create: (context) => WatchlistBloc(context.read<WatchlistService>())
+            ..add(FetchWatchlistMoviesEvent()),
         ),
       ],
       child: MaterialApp(
@@ -113,16 +134,24 @@ class MyApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: FutureBuilder<bool>(
-          future: AuthRepository.instance.isLoggedIn(),
+        home: FutureBuilder<ResponseResult<bool>>(
+          future: context.read<AuthService>().isLoggedIn(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CupertinoActivityIndicator());
-            } else if (snapshot.hasData && snapshot.data!) {
-              return const HomeScreen();
-            } else {
-              return const LoginScreen();
+            } else if (snapshot.hasData) {
+              final result = snapshot.data!;
+              if (result is Success<bool>) {
+                return result.data ? const HomeScreen() : const LoginScreen();
+              } else if (result is Failure<bool>) {
+                return Scaffold(
+                  body: Center(
+                    child: Text('Error: ${result.message}'),
+                  ),
+                );
+              }
             }
+            return const LoginScreen();
           },
         ),
         routes: {

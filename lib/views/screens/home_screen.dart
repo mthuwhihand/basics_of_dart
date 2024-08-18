@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
             children: <Widget>[
               KeepAlivePageWidget(page: MoviesScreen()),
               LikedScreen(),
-              KeepAlivePageWidget(page: WatchlistScreen()),
+              WatchlistScreen(),
             ],
           ),
         ),

@@ -25,6 +25,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   Future<void> _onFetchMovies(
       FetchMoviesEvent event, Emitter<MovieState> emit) async {
     emit(MovieLoading());
+    _hasMoreMovies = true;
     final result = await _movieService.fetchAllMovies();
     if (result is Success<List<Movie>>) {
       emit(MoviesLoaded(result.data));
@@ -53,6 +54,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       final currentState = state as MoviesLoaded;
       _currentPage++;
 
+      await Future.delayed(const Duration(milliseconds: 50), () {});
       try {
         final response = await _movieService.fetchAllMovies();
 
