@@ -66,7 +66,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieBloc, MovieState>(
-      // bloc: MovieItemBloc(),
       builder: (context, state) {
         if (state is MovieLoading) {
           return const Center(child: CupertinoActivityIndicator());

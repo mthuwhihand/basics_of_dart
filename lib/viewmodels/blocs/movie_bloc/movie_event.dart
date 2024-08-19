@@ -18,9 +18,9 @@ class FetchMoviesEvent extends MovieEvent {}
 //   List<Object> get props => [type, query];
 // }
 
-class LikeMovieEvent extends MovieEvent {
+class ToggleLikeEvent extends MovieEvent {
   final int movieId;
-  const LikeMovieEvent(this.movieId);
+  const ToggleLikeEvent(this.movieId);
 }
 
 class UnlikeMovieEvent extends MovieEvent {
@@ -28,9 +28,9 @@ class UnlikeMovieEvent extends MovieEvent {
   const UnlikeMovieEvent(this.movieId);
 }
 
-class AddToWatchlistEvent extends MovieEvent {
+class ToggleWatchlistEvent extends MovieEvent {
   final int movieId;
-  const AddToWatchlistEvent(this.movieId);
+  const ToggleWatchlistEvent(this.movieId);
 }
 
 class RemoveFromWatchlistEvent extends MovieEvent {

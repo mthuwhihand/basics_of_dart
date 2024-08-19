@@ -20,20 +20,23 @@ class NetworkImageWithFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeInImage.assetNetwork(
-      placeholder: placeholderAsset,
-      image: imageUrl,
-      height: height,
-      width: width,
-      fit: fit,
-      imageErrorBuilder: (context, error, stackTrace) {
-        return Image.asset(
-          placeholderAsset,
-          height: height,
-          width: width,
-          fit: fit,
-        );
-      },
+    return CircleAvatar(
+      radius: 150,
+      child: FadeInImage.assetNetwork(
+        placeholder: placeholderAsset,
+        image: imageUrl,
+        height: height,
+        width: width,
+        fit: fit,
+        imageErrorBuilder: (context, error, stackTrace) {
+          return Image.asset(
+            placeholderAsset,
+            height: height,
+            width: width,
+            fit: fit,
+          );
+        },
+      ),
     );
   }
 }

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:basics_of_dart/utils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,8 @@ Future<void> main() async {
       await WatchlistRepository.getInstance(watchlistLocalDataSource);
 
   //Services
-  final AuthService authService = await AuthService.getInstance(authRepository);
+  final AuthService authService = await AuthService.getInstance(
+      authRepository, (await SharedPreferences.getInstance()));
   final MovieService movieService = MovieService.getInstance(
       movieRepository, likeRepository, watchlistRepository);
   final LikeService likeService =
@@ -52,7 +54,8 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc(authService: AuthService.instance),
         ),
         BlocProvider<MovieBloc>(
-          create: (context) => MovieBloc(MovieService.instance),
+          create: (context) => MovieBloc(MovieService.instance,
+              LikeService.instance, WatchlistService.instance),
         ),
         BlocProvider<LikeBloc>(
           create: (context) => LikeBloc(LikeService.instance),
@@ -95,7 +98,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: FutureBuilder<ResponseResult<bool>>(
-          future: AuthService.instance.isLoggedIn(),
+          future: AuthService.isLoggedIn(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CupertinoActivityIndicator());

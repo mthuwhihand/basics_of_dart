@@ -6,12 +6,13 @@ class AuthService {
   AuthService._();
 
   static final AuthService _instance = AuthService._();
-  late final SharedPreferences _prefs;
-  late final IAuthRepository _authRepository;
+  static late final SharedPreferences _prefs;
+  static late final IAuthRepository _authRepository;
 
-  static Future<AuthService> getInstance(IAuthRepository authRepository) async {
-    _instance._authRepository = authRepository;
-    _instance._prefs = await SharedPreferences.getInstance();
+  static Future<AuthService> getInstance(
+      IAuthRepository authRepository, SharedPreferences prefs) async {
+    _authRepository = authRepository;
+    _prefs = prefs;
     return _instance;
   }
 
@@ -45,7 +46,7 @@ class AuthService {
     }
   }
 
-  Future<ResponseResult<bool>> isLoggedIn() async {
+  static Future<ResponseResult<bool>> isLoggedIn() async {
     try {
       final id = _prefs.getInt(_loggedInUserIDKey);
       if (id != null) {
