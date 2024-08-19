@@ -23,6 +23,8 @@ class MovieService {
     return _instance;
   }
 
+  static get instance => _instance;
+
   Future<ResponseResult<List<Movie>>> fetchAllMovies() async {
     try {
       final movies = await _movieRepository.fetchAll();

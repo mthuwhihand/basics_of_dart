@@ -15,7 +15,7 @@ class AuthService {
     return _instance;
   }
 
-  //static get instance => _instance;
+  static get instance => _instance;
 
   static const _loggedInUserIDKey = 'mthuw_app_logged_in_ID';
 

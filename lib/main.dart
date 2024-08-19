@@ -38,43 +38,7 @@ Future<void> main() async {
       LikeService.getInstance(likeRepository, movieService);
   final WatchlistService watchlistService =
       WatchlistService.getInstance(watchlistRepository, movieService);
-  runApp(
-    MultiProvider(
-      providers: [
-        Provider<ILikesLocalDataSource>(
-          create: (_) => likesLocalDataSource,
-        ),
-        Provider<IWatchlistLocalDataSource>(
-          create: (_) => watchlistLocalDataSource,
-        ),
-        Provider<IAuthRepository>(
-          create: (_) => authRepository,
-        ),
-        Provider<IMovieRepository>(
-          create: (_) => movieRepository,
-        ),
-        Provider<ILikeRepository>(
-          create: (_) => likeRepository,
-        ),
-        Provider<IWatchlistRepository>(
-          create: (_) => watchlistRepository,
-        ),
-        Provider<AuthService>(
-          create: (_) => authService,
-        ),
-        Provider<MovieService>(
-          create: (_) => movieService,
-        ),
-        Provider<LikeService>(
-          create: (_) => likeService,
-        ),
-        Provider<WatchlistService>(
-          create: (_) => watchlistService,
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -85,20 +49,16 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          create: (context) =>
-              AuthBloc(authService: context.read<AuthService>()),
+          create: (context) => AuthBloc(authService: AuthService.instance),
         ),
         BlocProvider<MovieBloc>(
-          create: (context) =>
-              MovieBloc(context.read<MovieService>())..add(FetchMoviesEvent()),
+          create: (context) => MovieBloc(MovieService.instance),
         ),
         BlocProvider<LikeBloc>(
-          create: (context) => LikeBloc(context.read<LikeService>())
-            ..add(FetchLikedMoviesEvent()),
+          create: (context) => LikeBloc(LikeService.instance),
         ),
         BlocProvider<WatchlistBloc>(
-          create: (context) => WatchlistBloc(context.read<WatchlistService>())
-            ..add(FetchWatchlistMoviesEvent()),
+          create: (context) => WatchlistBloc(WatchlistService.instance),
         ),
       ],
       child: MaterialApp(
@@ -135,7 +95,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: FutureBuilder<ResponseResult<bool>>(
-          future: context.read<AuthService>().isLoggedIn(),
+          future: AuthService.instance.isLoggedIn(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CupertinoActivityIndicator());

@@ -1,3 +1,4 @@
+import 'package:basics_of_dart/viewmodels/blocs/blocs_library.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,8 +33,40 @@ class _MoviesScreenState extends State<MoviesScreen> {
   //   }
 
   @override
+  void didUpdateWidget(covariant MoviesScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  void activate() {
+    // TODO: implement activate
+    super.activate();
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+  }
+
+  @override
+  void reassemble() {
+    // TODO: implement reassemble
+    super.reassemble();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieBloc, MovieState>(
+      // bloc: MovieItemBloc(),
       builder: (context, state) {
         if (state is MovieLoading) {
           return const Center(child: CupertinoActivityIndicator());
@@ -54,12 +87,10 @@ class _MoviesScreenState extends State<MoviesScreen> {
                       radius: 20.0,
                     ));
                   } else {
-                    return const Center(
-                      child: Text(
-                        '- That\'s all -',
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),
+                    return const Text(
+                      '- That\'s all -',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
                       ),
                     );
                   }

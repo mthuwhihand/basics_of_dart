@@ -17,6 +17,8 @@ class WatchlistService {
     return _instance;
   }
 
+  static get instance => _instance;
+
   Future<ResponseResult<void>> addToWatchlist(int movieId) async {
     try {
       await _watchlistRepository.addToWatchlist(movieId);

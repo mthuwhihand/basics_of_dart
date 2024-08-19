@@ -16,8 +16,8 @@ class MovieItem extends StatelessWidget {
     return BlocProvider(
       create: (context) => MovieItemBloc(
         movie.id,
-        context.read<LikeService>(),
-        context.read<WatchlistService>(),
+        LikeService.instance,
+        WatchlistService.instance,
       ),
       child: BlocBuilder<MovieItemBloc, MovieItemState>(
         builder: (context, state) {

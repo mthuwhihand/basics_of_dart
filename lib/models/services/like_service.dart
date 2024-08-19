@@ -17,6 +17,8 @@ class LikeService {
     return _instance;
   }
 
+  static get instance => _instance;
+
   Future<ResponseResult<void>> addLike(int movieId) async {
     try {
       await _likeRepository.addLike(movieId);
